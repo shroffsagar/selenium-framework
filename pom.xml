@@ -23,16 +23,11 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.4.0</version>
+            <version>7.3.0</version>
         </dependency>
         <dependency>
             <groupId>systems.manifold</groupId>
             <artifactId>manifold-ext-rt</artifactId>
-            <version>${manifold-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>systems.manifold</groupId>
-            <artifactId>manifold-props-rt</artifactId>
             <version>${manifold-version}</version>
         </dependency>
     </dependencies>
@@ -64,11 +59,6 @@
                         <path>
                             <groupId>systems.manifold</groupId>
                             <artifactId>manifold-ext</artifactId>
-                            <version>${manifold-version}</version>
-                        </path>
-                        <path>
-                            <groupId>systems.manifold</groupId>
-                            <artifactId>manifold-props</artifactId>
                             <version>${manifold-version}</version>
                         </path>
                     </annotationProcessorPaths>

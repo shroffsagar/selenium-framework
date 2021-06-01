@@ -1,4 +1,4 @@
-package tests.helper;
+package helper;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,31 +12,40 @@ import org.testng.annotations.BeforeClass;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public class TestHelper extends TestListenerAdapter
+public class UITest extends TestListenerAdapter
 {
-
     protected WebDriver driver;
+    protected FluentWait<WebDriver> wait;
 
     @BeforeClass
     protected void startTests() {
-        driver = new ChromeDriver();
+        this.driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-        driver.setWait(new WebDriverWait(driver, 10).pollingEvery(Duration.ofSeconds(2)));
+        wait = new WebDriverWait(driver, 10).pollingEvery(Duration.ofSeconds(2));
+        UITestRegistry.getInstance().registerUITest(this);
     }
 
     @AfterClass
     protected void endTests() {
         String debug = System.getenv("debug");
-        if (debug == null || debug.equalsIgnoreCase("true") == false)
+        if (debug == null || !debug.equalsIgnoreCase("true"))
             if (driver != null) driver.quit();
     }
 
     @Override
     public void onTestFailure(ITestResult tr) {
         super.onTestFailure(tr);
-        TestHelper testInstance = ((TestHelper)tr.getInstance());
+        UITest testInstance = ((UITest)tr.getInstance());
         testInstance.endTests();
         testInstance.startTests();
+    }
+
+    public WebDriver getDriver(){
+        return driver;
+    }
+
+    public FluentWait<WebDriver> getWait(){
+        return wait;
     }
 }

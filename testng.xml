@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="test_suite">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="test_suite" parallel="classes">
     <listeners>
-        <listener class-name="tests.helper.TestHelper"/>
+        <listener class-name="helper.UITest"/>
     </listeners>
     <test name="regression">
-        <classes>
-            <class name="tests.WikiTest"/>
-            <class name="tests.W3SchoolTest"/>
-        </classes>
+        <packages>
+            <package name="tests"/>
+        </packages>
     </test>
 </suite> <!-- Suite -->
