@@ -30,7 +30,10 @@ public class UITest extends TestListenerAdapter
     protected void endTests() {
         String debug = System.getenv("debug");
         if (debug == null || !debug.equalsIgnoreCase("true"))
-            if (driver != null) driver.quit();
+            if (driver != null) {
+                driver.quit();
+                UITestRegistry.getInstance().removeCurrentRunningTest();
+            }
     }
 
     @Override

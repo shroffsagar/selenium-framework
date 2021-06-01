@@ -13,6 +13,8 @@ public final class UITestRegistry {
 
     public static UITestRegistry getInstance(){ return instance;}
 
+    public void removeCurrentRunningTest() { registry.remove(Thread.currentThread()); }
+
     public UITest getCurrentRunningUITest(){ return registry.get(Thread.currentThread());}
 
     public void registerUITest(UITest uiTest){
