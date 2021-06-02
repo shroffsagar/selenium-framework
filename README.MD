@@ -1,0 +1,1 @@
+![Class diagram](docs/UITestFramework-ClassDiagram.png?raw=true "Class Diagram")

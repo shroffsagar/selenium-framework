@@ -11,11 +11,10 @@ public class WikiTest extends UITest {
     @Test
     public void welcomePage() {
         driver.get("https://www.wikipedia.org/");
-        WebElement lnkEnglish = driver.findElement(By.xpath("//*[@id='js-link-box-en']"));
-        lnkEnglish.click();
-        WebElement welcomeMsg = driver.findElement(By.id("mp-welcome"));
+        driver.findElement(By.xpath("//*[@id='js-link-box-en']")).click();
         wait.waitForElementTextToMatch(By.id("mp-welcome"), "Welcome to Wiki.*");
-        Assert.assertEquals(welcomeMsg.getText(), "Welcome to Wikipedia,");
+        String actualWelcomeMsg = driver.findElement(By.id("mp-welcome")).getText();
+        Assert.assertEquals(actualWelcomeMsg, "Welcome to Wikipedia,");
         driver.findElement(By.cssSelector("#footer-places-statslink a")).clickUsingJS();
         driver.close();
     }
