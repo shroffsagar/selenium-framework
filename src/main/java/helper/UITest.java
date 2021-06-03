@@ -2,6 +2,7 @@ package helper;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
@@ -16,13 +17,15 @@ public class UITest extends TestListenerAdapter
 {
     protected WebDriver driver;
     protected FluentWait<WebDriver> wait;
+    public static final int defaultImplicitWait = 10;
 
     @BeforeClass
     protected void startTests() {
         this.driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(defaultImplicitWait, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, 10).pollingEvery(Duration.ofSeconds(2));
+        wait = new WebDriverWait(driver, defaultImplicitWait).pollingEvery(Duration.ofSeconds(2));
+        PageFactory.initElements(driver, this);
         UITestRegistry.getInstance().registerUITest(this);
     }
 
@@ -51,4 +54,5 @@ public class UITest extends TestListenerAdapter
     public FluentWait<WebDriver> getWait(){
         return wait;
     }
+
 }

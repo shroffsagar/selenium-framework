@@ -32,6 +32,7 @@
         </dependency>
     </dependencies>
 
+    <!--TODO: Ability to auto-update latest compatible chromedriver as part of the build-->
     <build>
         <plugins>
 

@@ -3,15 +3,14 @@ package extensions.org.openqa.selenium.WebDriver;
 import helper.UITestRegistry;
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Extension
 public class WebDriverExt {
@@ -42,4 +41,9 @@ public class WebDriverExt {
         Assert.assertTrue(w3schoolAlert.getText().contains(alertText));
         w3schoolAlert.accept();
     }
+
+    public static void executeScript(@This WebDriver thiz, String script, Object ... args){
+        ((JavascriptExecutor)thiz).executeScript(script, args);
+    }
+
 }
