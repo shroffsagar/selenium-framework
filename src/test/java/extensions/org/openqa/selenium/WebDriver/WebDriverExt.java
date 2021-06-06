@@ -1,16 +1,15 @@
 package extensions.org.openqa.selenium.WebDriver;
 
-import helper.UITestRegistry;
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import pom.common.Browser;
+import pom.common.BrowserProvider;
 
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Extension
 public class WebDriverExt {
@@ -34,8 +33,13 @@ public class WebDriverExt {
         thiz.switchTo().frame(thiz.findElement(locator));
     }
 
+    public static void switchToIFrame(@This WebDriver thiz, WebElement iframe) {
+        thiz.switchTo().frame(iframe);
+    }
+
     public static void acceptAlert(@This WebDriver thiz, String alertText) {
-        FluentWait<WebDriver> wait = UITestRegistry.getInstance().getCurrentRunningUITest().getWait();
+        Browser browser = BrowserProvider.getInstance().getBrowser();
+        FluentWait<WebDriver> wait = browser.getWait();
         wait.until(ExpectedConditions.alertIsPresent());
         Alert w3schoolAlert = thiz.switchTo().alert();
         Assert.assertTrue(w3schoolAlert.getText().contains(alertText));
