@@ -31,7 +31,7 @@ public class W3SchoolBasePage extends WebPage
             openedMenuContainer.waitForElementToBeDisplayed();
         }
 
-        public boolean menuListHasFollowingItems(String listHeader, List<String> expectedMenuSubItems){
+        public List<String> getMenuListItem(String listHeader){
             String xpath = "//*[contains(@id,'nav_')][not(contains(@style,'display: none;'))]//*[contains(@class,'w3-content')]//*[contains(@class,'w3-col')]//h3[normalize-space(.)='"+listHeader+"']/ancestor::*[contains(@class,'w3-col')]/*[contains(@class,'w3-margin-top') or contains(@class, 'w3-bar-item')]";
             List<WebElement> colValues = driver.findElements(By.xpath(xpath));
             boolean isStartTagFound = false;
@@ -47,8 +47,7 @@ public class W3SchoolBasePage extends WebPage
                     actualMenuSubItems.add(colValue.getText());
                 }
             }
-            System.out.println("Expected = "+expectedMenuSubItems+" Actual = "+actualMenuSubItems);
-            return actualMenuSubItems.equals(expectedMenuSubItems);
+            return actualMenuSubItems;
         }
     }
 }

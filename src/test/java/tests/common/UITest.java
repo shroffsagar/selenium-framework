@@ -1,20 +1,44 @@
 package tests.common;
 
+import io.qameta.allure.Allure;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.testng.TestListenerAdapter;
-import org.testng.annotations.AfterClass;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import pom.common.Browser;
 import pom.common.BrowserProvider;
-import pom.common.BrowserRegistry;
+import pom.common.EnvContext;
 
-public class UITest extends TestListenerAdapter
+import java.io.ByteArrayInputStream;
+
+public class UITest
 {
+    protected SoftAssert soft = new SoftAssert();
+
+    @Parameters("browser")
+    @BeforeClass
+    public void startTests(@Optional("SAFARI") String browser){
+        BrowserProvider.getInstance().newBrowser(EnvContext.BROWSER_TYPE.valueOf(browser));
+    }
+
+    @AfterMethod
+    public void afterMethod(ITestResult result)
+    {
+        if(result.getStatus() == ITestResult.FAILURE){
+            WebDriver driver = BrowserProvider.getInstance().getBrowser().getDriver();
+            Allure.addAttachment(result.getName(), new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+        }
+    }
+
     @AfterClass
-    protected void endTests() {
+    public void endTests() {
         String debug = System.getenv("debug");
         if (debug == null || !debug.equalsIgnoreCase("true")) {
             Browser browser = BrowserProvider.getInstance().getBrowser();
             browser.quit();
         }
     }
+
 }

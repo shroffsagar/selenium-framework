@@ -10,9 +10,9 @@ public class BrowserRegistry {
 
     static void removeBrowserFromRegistry() { registry.remove(Thread.currentThread()); }
 
-    static Browser getCurrentRunningBrowser(){ return registry.get(Thread.currentThread());}
+    static Browser getCurrentRunningBrowserFromRegistry(){ return registry.get(Thread.currentThread());}
 
-    static void registerCurrentRunningBrowser(Browser browser) {
+    static void registerBrowserToRegistry(Browser browser) {
         registry.put(Thread.currentThread(), browser);
     }
 }

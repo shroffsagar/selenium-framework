@@ -25,7 +25,7 @@ public class WebDriverExt {
             }
         }
         if (foundDesiredTab == false) {
-            Assert.fail("Fail to switch to tab: " + tabName);
+            throw new NoSuchWindowException("Fail to switch to tab: " + tabName);
         }
     }
 
@@ -40,10 +40,10 @@ public class WebDriverExt {
     public static void acceptAlert(@This WebDriver thiz, String alertText) {
         Browser browser = BrowserProvider.getInstance().getBrowser();
         FluentWait<WebDriver> wait = browser.getWait();
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert w3schoolAlert = thiz.switchTo().alert();
+        Alert w3schoolAlert = wait.until(ExpectedConditions.alertIsPresent());
         Assert.assertTrue(w3schoolAlert.getText().contains(alertText));
         w3schoolAlert.accept();
+        wait.until(ExpectedConditions.not(ExpectedConditions.alertIsPresent()));
     }
 
     public static void executeScript(@This WebDriver thiz, String script, Object ... args){

@@ -28,7 +28,9 @@ public class TryItPage extends W3SchoolBasePage {
     public W3SchoolHome clickOnW3SchoolHome() {
         w3SchoolHomeIcon.click();
         driver.switchToTab("W3Schools Online Web");
-        return new W3SchoolHome();
+        W3SchoolHome w3SchoolHome = new W3SchoolHome();
+        w3SchoolHome.waitForPageToOpen();
+        return w3SchoolHome;
     }
 
     public TryItPage tryOnAlertAndAcceptIt() {

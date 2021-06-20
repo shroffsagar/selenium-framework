@@ -2,6 +2,7 @@ package extensions.org.openqa.selenium.WebElement;
 
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
+import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +13,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import pom.common.Browser;
 import pom.common.BrowserProvider;
-import pom.common.BrowserRegistry;
 import pom.common.EnvContext;
 import utils.CommonUtils;
 
@@ -60,12 +60,18 @@ public class WebElementExt {
         try { thiz.click(); }
         catch (NoSuchElementException exception) {  elmDoesNotExists = true; }
         finally { driver.manage().timeouts().implicitlyWait(EnvContext.wait_timeout, TimeUnit.SECONDS); }
-        Assert.assertEquals(elmDoesNotExists, true);
+        if(elmDoesNotExists != true)
+            throw new InvalidElementStateException("Expected "+thiz+" to be not present but it exists");
     }
 
     public static void rightClick(@This WebElement thiz){
         Browser browser = BrowserProvider.getInstance().getBrowser();
         WebDriver driver = browser.getDriver();
         new Actions(driver).contextClick(thiz).build().perform();
+    }
+
+    public static void click(@This WebElement thiz){
+        thiz.waitForElementToBeDisplayed();
+        thiz.click();
     }
 }
