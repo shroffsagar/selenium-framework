@@ -37,11 +37,18 @@
             <artifactId>allure-testng</artifactId>
             <version>${allure.testng.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.4.3</version>
+        </dependency>
     </dependencies>
 
     <!--
-    TODO: Ability to auto-update latest compatible chromedriver as part of the build
+    TODO: Explore selenium grid
+    TODO: Setup environments in automated manner using docker.
     TODO: Explore selenide
+    TODO: Integrate Report Portal
     -->
     <build>
         <plugins>

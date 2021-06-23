@@ -3,9 +3,7 @@ package tests.extensions.usage.sample;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import pom.pages.w3school.W3SchoolHome;
 import pom.pages.w3school.tryit.TryItPage;
 import tests.common.UITest;
@@ -36,9 +34,10 @@ public class W3SchoolTest extends UITest {
         TryItPage selectPage = new TryItPage(TryItPage.Component.select);
         selectPage.open();
         selectPage.selectCar("Opel");
-        Assert.assertEquals(selectPage.getSelectedCar(), "Opel");
+        soft.assertEquals(selectPage.getSelectedCar(), "Opel");
         selectPage.selectCar("Volvo");
-        Assert.assertEquals(selectPage.getSelectedCar(), "Volvo");
+        soft.assertEquals(selectPage.getSelectedCar(), "Volvo");
+        soft.assertAll();
     }
 
     @Test
@@ -47,7 +46,7 @@ public class W3SchoolTest extends UITest {
         dragAndDropPage.open();
         dragAndDropPage.tryDragdrop();
         dragAndDropPage.runJavascript();
-        dragAndDropPage.imgUnderDropZone.doesNotExists();
+        dragAndDropPage.imgUnderDropZone.shouldNotExist();
         dragAndDropPage.tryDragdrop();
     }
 }

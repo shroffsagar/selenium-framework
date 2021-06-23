@@ -10,7 +10,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import pom.common.Browser;
 import pom.common.BrowserProvider;
 import pom.common.EnvContext;
@@ -52,14 +51,14 @@ public class WebElementExt {
         wait.until(ExpectedConditions.visibilityOf(elm));
     }
 
-    public static void doesNotExists(@This WebElement thiz){
+    public static void shouldNotExist(@This WebElement thiz){
         Browser browser = BrowserProvider.getInstance().getBrowser();
         WebDriver driver = browser.getDriver();
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         boolean elmDoesNotExists = false;
         try { thiz.click(); }
         catch (NoSuchElementException exception) {  elmDoesNotExists = true; }
-        finally { driver.manage().timeouts().implicitlyWait(EnvContext.wait_timeout, TimeUnit.SECONDS); }
+        finally { driver.manage().timeouts().implicitlyWait(EnvContext.waitTimeout, TimeUnit.SECONDS); }
         if(elmDoesNotExists != true)
             throw new InvalidElementStateException("Expected "+thiz+" to be not present but it exists");
     }
@@ -71,7 +70,10 @@ public class WebElementExt {
     }
 
     public static void click(@This WebElement thiz){
+        Browser browser = BrowserProvider.getInstance().getBrowser();
         thiz.waitForElementToBeDisplayed();
+        browser.getWait().until(ExpectedConditions.elementToBeClickable(thiz));
         thiz.click();
+        browser.getWait().pageToLoad();
     }
 }

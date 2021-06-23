@@ -1,6 +1,9 @@
 package utils;
 
+import org.apache.tools.ant.util.FileUtils;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -17,6 +20,16 @@ public class CommonUtils {
             return new String(data);
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static File getFileFromClasspath(String resourceName){
+        try {
+            URL url = CommonUtils.class.getClassLoader().getResource(resourceName);
+            if(url == null) throw new RuntimeException("Failed to ready file from classpath : "+resourceName);
+            return new File (url.toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Failed to ready file from classpath : "+resourceName, e);
         }
     }
 }

@@ -10,23 +10,30 @@ import pom.common.Browser;
 import pom.common.BrowserProvider;
 
 import java.util.Set;
+import java.util.function.Function;
 
 @Extension
 public class WebDriverExt {
 
     public static void switchToTab(@This WebDriver thiz, String tabName) {
-        Set<String> windowHandleNames = thiz.getWindowHandles();
-        boolean foundDesiredTab = false;
-        for (String windowHandleName : windowHandleNames) {
-            String title = thiz.switchTo().window(windowHandleName).getTitle();
-            if (title.toLowerCase().contains(tabName.toLowerCase())) {
-                foundDesiredTab = true;
-                break;
+        Function<? super WebDriver, ?> tabIsLoaded = new Function<WebDriver, Object>() {
+            @Override
+            public Object apply(WebDriver driver) {
+                Set<String> windowHandleNames = driver.getWindowHandles();
+                boolean foundDesiredTab = false;
+                for (String windowHandleName : windowHandleNames) {
+                    String title = driver.switchTo().window(windowHandleName).getTitle();
+                    if (title.toLowerCase().contains(tabName.toLowerCase())) {
+                        foundDesiredTab = true;
+                        break;
+                    }
+                }
+                return foundDesiredTab;
             }
-        }
-        if (foundDesiredTab == false) {
-            throw new NoSuchWindowException("Fail to switch to tab: " + tabName);
-        }
+        };
+        Browser browser = BrowserProvider.getInstance().getBrowser();
+        browser.getWait().until(tabIsLoaded);
+        browser.getWait().pageToLoad();
     }
 
     public static void switchToIFrame(@This WebDriver thiz, By locator) {
@@ -46,8 +53,8 @@ public class WebDriverExt {
         wait.until(ExpectedConditions.not(ExpectedConditions.alertIsPresent()));
     }
 
-    public static void executeScript(@This WebDriver thiz, String script, Object ... args){
-        ((JavascriptExecutor)thiz).executeScript(script, args);
+    public static Object executeScript(@This WebDriver thiz, String script, Object ... args){
+        return ((JavascriptExecutor)thiz).executeScript(script, args);
     }
 
 }

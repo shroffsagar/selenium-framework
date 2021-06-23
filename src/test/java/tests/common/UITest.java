@@ -13,20 +13,19 @@ import pom.common.EnvContext;
 
 import java.io.ByteArrayInputStream;
 
-public class UITest
-{
+public class UITest {
     protected SoftAssert soft = new SoftAssert();
 
     @Parameters("browser")
     @BeforeClass
-    public void startTests(@Optional("SAFARI") String browser){
+    public void startTests(@Optional String browser) {
+        if (browser == null || browser.isBlank()) browser = EnvContext.defaultBrowser.name();
         BrowserProvider.getInstance().newBrowser(EnvContext.BROWSER_TYPE.valueOf(browser));
     }
 
     @AfterMethod
-    public void afterMethod(ITestResult result)
-    {
-        if(result.getStatus() == ITestResult.FAILURE){
+    public void attachFailureScreenshot(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
             WebDriver driver = BrowserProvider.getInstance().getBrowser().getDriver();
             Allure.addAttachment(result.getName(), new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         }
@@ -34,11 +33,7 @@ public class UITest
 
     @AfterClass
     public void endTests() {
-        String debug = System.getenv("debug");
-        if (debug == null || !debug.equalsIgnoreCase("true")) {
-            Browser browser = BrowserProvider.getInstance().getBrowser();
-            browser.quit();
-        }
+        Browser browser = BrowserProvider.getInstance().getBrowser();
+        browser.quit();
     }
-
 }

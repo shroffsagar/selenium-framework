@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="test_suite" parallel="classes">
-    <test name="regression">
+    <test name="regression on safari">
+        <parameter name="browser" value="SAFARI"/>
+        <packages>
+            <package name="tests.extensions.usage.sample"/>
+        </packages>
+    </test>
+    <test name="regression on chrome">
+        <parameter name="browser" value="CHROME"/>
         <packages>
             <package name="tests.extensions.usage.sample"/>
         </packages>
