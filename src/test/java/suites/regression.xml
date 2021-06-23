@@ -4,13 +4,13 @@
     <test name="regression on safari">
         <parameter name="browser" value="SAFARI"/>
         <packages>
-            <package name="tests.extensions.usage.sample"/>
+            <package name="tests.sample.extensions.usage"/>
         </packages>
     </test>
     <test name="regression on chrome">
         <parameter name="browser" value="CHROME"/>
         <packages>
-            <package name="tests.extensions.usage.sample"/>
+            <package name="tests.sample.extensions.usage"/>
         </packages>
     </test>
 </suite>

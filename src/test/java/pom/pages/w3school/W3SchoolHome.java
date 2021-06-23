@@ -15,8 +15,6 @@ public class W3SchoolHome extends W3SchoolBasePage {
 
     public W3SchoolTutorialHome clickOnLearnHtml() {
         learnHtmlButton.click();
-        W3SchoolTutorialHome tutorialHome = new W3SchoolTutorialHome();
-        tutorialHome.waitForPageToOpen();
-        return tutorialHome;
+        return new W3SchoolTutorialHome();
     }
 }

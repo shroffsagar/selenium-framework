@@ -2,6 +2,8 @@ package pom.pages.w3school.tryit;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pom.common.Browser;
+import pom.common.BrowserProvider;
 import pom.pages.w3school.W3SchoolBasePage;
 import pom.pages.w3school.W3SchoolHome;
 
@@ -20,6 +22,10 @@ public class TryItPage extends W3SchoolBasePage {
         super(component.url, "Tryit Editor");
     }
 
+    public static void open(Component component) {
+        BrowserProvider.getInstance().getBrowser().open(getUrl(component.url));
+    }
+
     public TryItPage runJavascript() {
         runJsBtn.click();
         return this;
@@ -28,9 +34,7 @@ public class TryItPage extends W3SchoolBasePage {
     public W3SchoolHome clickOnW3SchoolHome() {
         w3SchoolHomeIcon.click();
         driver.switchToTab("W3Schools Online Web");
-        W3SchoolHome w3SchoolHome = new W3SchoolHome();
-        w3SchoolHome.waitForPageToOpen();
-        return w3SchoolHome;
+        return new W3SchoolHome();
     }
 
     public TryItPage tryOnAlertAndAcceptIt() {
@@ -77,5 +81,4 @@ public class TryItPage extends W3SchoolBasePage {
             this.url = url;
         }
     }
-
 }

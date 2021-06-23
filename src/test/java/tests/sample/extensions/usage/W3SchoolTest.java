@@ -1,4 +1,4 @@
-package tests.extensions.usage.sample;
+package tests.sample.extensions.usage;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
@@ -16,8 +16,8 @@ public class W3SchoolTest extends UITest {
     @Description("Test alert interaction on w3school")
     @Test(description = "TC-101 - Ability to handle alert on w3school")
     public void w3schoolAlertPage() {
+        TryItPage.open(TryItPage.Component.alert);
         TryItPage alertPage = new TryItPage(TryItPage.Component.alert);
-        alertPage.open();
         alertPage.tryOnAlertAndAcceptIt();
         W3SchoolHome w3SchoolHome = alertPage.clickOnW3SchoolHome();
         w3SchoolHome.clickOnLearnHtml();
@@ -31,8 +31,8 @@ public class W3SchoolTest extends UITest {
 
     @Test
     public void w3schoolSelect() {
+        TryItPage.open(TryItPage.Component.select);
         TryItPage selectPage = new TryItPage(TryItPage.Component.select);
-        selectPage.open();
         selectPage.selectCar("Opel");
         soft.assertEquals(selectPage.getSelectedCar(), "Opel");
         selectPage.selectCar("Volvo");
@@ -41,9 +41,9 @@ public class W3SchoolTest extends UITest {
     }
 
     @Test
-    public void w3schoolDragAndDrop() throws InterruptedException {
+    public void w3schoolDragAndDrop() {
+        TryItPage.open(TryItPage.Component.drag_and_drop);
         TryItPage dragAndDropPage = new TryItPage(TryItPage.Component.drag_and_drop);
-        dragAndDropPage.open();
         dragAndDropPage.tryDragdrop();
         dragAndDropPage.runJavascript();
         dragAndDropPage.imgUnderDropZone.shouldNotExist();

@@ -32,4 +32,9 @@ public class Browser
         driver.quit();;
         BrowserRegistry.removeBrowserFromRegistry();
     }
+
+    public void open(String url) {
+        driver.get(url);
+        wait.pageToLoad();
+    }
 }

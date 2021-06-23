@@ -17,8 +17,9 @@ public class WebPage {
 
     public WebPage(String relativeUrl, String title){
         this();
-        this.url = (relativeUrl.isBlank()) ? baseUrl: baseUrl + "/"+ relativeUrl;
+        this.url = getUrl(relativeUrl);
         this.title = title;
+        waitForPageToOpen();
     }
 
     public WebPage(){
@@ -29,13 +30,8 @@ public class WebPage {
         PageFactory.initElements(driver, this);
     }
 
-    public WebPage open() {
-        driver.get(url);
-        waitForPageToOpen();
-        return this;
-    }
-
     public WebPage waitForPageToOpen(){
+        wait.pageToLoad();
         wait.until(ExpectedConditions.titleContains(title));
         return this;
     }
@@ -48,4 +44,7 @@ public class WebPage {
         driver.switchToTab(this.title);
     }
 
+    public static String getUrl(String relativeUrl){
+        return (relativeUrl.isBlank()) ? baseUrl: baseUrl + "/"+ relativeUrl;
+    }
 }
