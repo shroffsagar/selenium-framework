@@ -6,8 +6,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
-import static pom.common.EnvContext.baseUrl;
-
 public class WebPage {
 
     protected WebDriver driver;
@@ -45,6 +43,6 @@ public class WebPage {
     }
 
     public static String getUrl(String relativeUrl){
-        return (relativeUrl.isBlank()) ? baseUrl: baseUrl + "/"+ relativeUrl;
+        return (relativeUrl.isBlank()) ? Env.App.url: Env.App.url + "/"+ relativeUrl;
     }
 }

@@ -2,21 +2,20 @@ package extensions.org.openqa.selenium.WebElement;
 
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import pom.common.Browser;
 import pom.common.BrowserProvider;
-import pom.common.EnvContext;
+import pom.common.Env;
 import utils.CommonUtils;
 
 import java.util.concurrent.TimeUnit;
 
+//TODO: Learning perspective implement these extension api through OOPs.
 @Extension
 public class WebElementExt {
 
@@ -31,8 +30,7 @@ public class WebElementExt {
     }
 
     public static void clickUsingJS(@This WebElement thiz) {
-        Browser browser = BrowserProvider.getInstance().getBrowser();
-        WebDriver driver = browser.getDriver();
+        WebDriver driver = BrowserProvider.getInstance().getBrowser().getDriver();
         driver.executeScript("arguments[0].click()", thiz);
     }
 
@@ -58,7 +56,7 @@ public class WebElementExt {
         boolean elmDoesNotExists = false;
         try { thiz.click(); }
         catch (NoSuchElementException exception) {  elmDoesNotExists = true; }
-        finally { driver.manage().timeouts().implicitlyWait(EnvContext.waitTimeout, TimeUnit.SECONDS); }
+        finally { driver.manage().timeouts().implicitlyWait(Env.Run.Wait.timeout, TimeUnit.SECONDS); }
         if(elmDoesNotExists != true)
             throw new InvalidElementStateException("Expected "+thiz+" to be not present but it exists");
     }
@@ -76,4 +74,28 @@ public class WebElementExt {
         thiz.click();
         browser.getWait().pageToLoad();
     }
+
+    public static void copy(@This WebElement thiz){
+        Browser browser = BrowserProvider.getInstance().getBrowser();
+        Actions actions = browser.getActions();
+        Platform platform = ((RemoteWebDriver)browser.getDriver()).getCapabilities().getPlatform();
+        Keys cmdCtrl = platform.is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
+        actions.keyDown(thiz, cmdCtrl)
+                .sendKeys("a")
+                .sendKeys("c")
+                .keyUp(thiz, cmdCtrl)
+                .build().perform();
+    }
+
+    public static void paste(@This WebElement thiz){
+        Browser browser = BrowserProvider.getInstance().getBrowser();
+        Actions actions = browser.getActions();
+        Platform platform = ((RemoteWebDriver)browser.getDriver()).getCapabilities().getPlatform();
+        Keys cmdCtrl = platform.is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
+        actions.click(thiz).keyDown(cmdCtrl)
+                .sendKeys("v")
+                .keyUp(cmdCtrl)
+                .build().perform();
+    }
+
 }

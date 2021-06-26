@@ -10,6 +10,14 @@ public class Browser
     private FluentWait<WebDriver> wait;
     private Actions actions;
 
+    public enum Type {
+        CHROME,
+        SAFARI;
+    }
+
+    private static final String CHROME="CHROME";
+    private static final String SAFARI="SAFARI";
+
     public Browser(WebDriver driver, FluentWait<WebDriver> wait, Actions actions){
         this.driver = driver;
         this.wait = wait;
@@ -37,4 +45,5 @@ public class Browser
         driver.get(url);
         wait.pageToLoad();
     }
+
 }

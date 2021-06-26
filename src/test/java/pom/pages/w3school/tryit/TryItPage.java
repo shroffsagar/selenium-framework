@@ -2,7 +2,6 @@ package pom.pages.w3school.tryit;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import pom.common.Browser;
 import pom.common.BrowserProvider;
 import pom.pages.w3school.W3SchoolBasePage;
 import pom.pages.w3school.W3SchoolHome;
@@ -20,6 +19,18 @@ public class TryItPage extends W3SchoolBasePage {
 
     public TryItPage(Component component) {
         super(component.url, "Tryit Editor");
+    }
+
+    public enum Component {
+        alert("jsref/tryit.asp?filename=tryjsref_alert"),
+        drag_and_drop("html/tryit.asp?filename=tryhtml5_draganddrop"),
+        select("tags/tryit.asp?filename=tryhtml_select");
+
+        String url;
+        private Component(String url)
+        {
+            this.url = url;
+        }
     }
 
     public static void open(Component component) {
@@ -68,17 +79,5 @@ public class TryItPage extends W3SchoolBasePage {
         imgUnderDropZone.waitForElementToBeDisplayed();
         driver.switchTo().defaultContent();
         return this;
-    }
-
-    public enum Component {
-        alert("jsref/tryit.asp?filename=tryjsref_alert"),
-        drag_and_drop("html/tryit.asp?filename=tryhtml5_draganddrop"),
-        select("tags/tryit.asp?filename=tryhtml_select");
-
-        String url;
-        private Component(String url)
-        {
-            this.url = url;
-        }
     }
 }

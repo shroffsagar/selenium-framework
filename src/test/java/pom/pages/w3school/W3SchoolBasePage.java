@@ -7,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import pom.common.WebPage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class W3SchoolBasePage extends WebPage

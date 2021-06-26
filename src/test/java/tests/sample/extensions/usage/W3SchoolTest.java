@@ -3,7 +3,12 @@ package tests.sample.extensions.usage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pom.common.BrowserProvider;
 import pom.pages.w3school.W3SchoolHome;
 import pom.pages.w3school.tryit.TryItPage;
 import tests.common.UITest;
@@ -48,5 +53,19 @@ public class W3SchoolTest extends UITest {
         dragAndDropPage.runJavascript();
         dragAndDropPage.imgUnderDropZone.shouldNotExist();
         dragAndDropPage.tryDragdrop();
+    }
+
+    @Test
+    public void clipboard(){
+        WebDriver driver = BrowserProvider.getInstance().getBrowser().getDriver();
+        driver.get("http://www.google.com");
+        WebElement e = driver.findElement(By.name("q"));
+        e.sendKeys("Some text which will get copied to clipboard");
+        e.copy();
+        e.clear();
+        Assert.assertEquals(e.getAttribute("value"),"");
+        e.paste();
+        String actual = e.getAttribute("value");
+        Assert.assertEquals(actual,"Some text which will get copied to clipboard");
     }
 }

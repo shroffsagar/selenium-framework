@@ -9,18 +9,24 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pom.common.Browser;
 import pom.common.BrowserProvider;
-import pom.common.EnvContext;
+import pom.common.Env;
 
 import java.io.ByteArrayInputStream;
 
 public class UITest {
     protected SoftAssert soft = new SoftAssert();
 
-    @Parameters("browser")
+    static {
+        Env.load();
+    }
+
+    @Parameters("run.browser")
     @BeforeClass
-    public void startTests(@Optional String browser) {
-        if (browser == null || browser.isBlank()) browser = EnvContext.defaultBrowser.name();
-        BrowserProvider.getInstance().newBrowser(EnvContext.BROWSER_TYPE.valueOf(browser));
+    public void startTests(@Optional("") String browser) {
+        //overrides if explicitly passed from test-suite.
+        if (browser.isBlank() == false)
+            Env.Run.browser = Browser.Type.valueOf(browser);
+        BrowserProvider.getInstance().newBrowser(Env.Run.browser);
     }
 
     @AfterMethod
@@ -36,4 +42,5 @@ public class UITest {
         Browser browser = BrowserProvider.getInstance().getBrowser();
         browser.quit();
     }
+
 }
